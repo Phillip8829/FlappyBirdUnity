@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,15 +36,28 @@ public class GameManager : MonoBehaviour
 
         Pipes[] pipes = FindObjectsOfType<Pipes>();
 
-        for (int i = 0; i < pipes.Length; i++) {
+        for (int i = 0; i < pipes.Length; i++)
+        {
             Destroy(pipes[i].gameObject);
         }
     }
 
+    [DllImport("__Internal")]
+    private static extern void SetScore(int score);
+    public void SomeMethod () {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    SetScore (score);
+#endif
+    }
+
+
+
     public void GameOver()
     {
+        SomeMethod();
         playButton.SetActive(true);
         gameOver.SetActive(true);
+
 
         Pause();
     }

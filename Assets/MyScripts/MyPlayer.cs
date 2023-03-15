@@ -6,8 +6,34 @@ using UnityEngine;
 public class MyPlayer : MonoBehaviour
 {
  private Vector3 _direction;
+ private SpriteRenderer _spriteRenderer;
+ private int _spriteIndex;
  public float gravity = -9.8f;
  public float strength = 5f;
+ public Sprite[] sprites;
+ 
+
+ private void Awake()
+ {
+     _spriteRenderer = GetComponent<SpriteRenderer>();
+ }
+
+ private void Start()
+ {
+    InvokeRepeating(nameof(AnimateSprite), 0.15f, 0.15f); 
+ }
+
+ private void AnimateSprite()
+ {
+     _spriteIndex++;
+
+     if (_spriteIndex >= sprites.Length)
+     {
+         _spriteIndex = 0;
+     }
+
+     _spriteRenderer.sprite = sprites[_spriteIndex];
+ }
 
  private void Update()
  { 
@@ -30,5 +56,6 @@ public class MyPlayer : MonoBehaviour
 
 
      }
+     
  }
 }
